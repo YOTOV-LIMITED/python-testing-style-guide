@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Python-testing-style-guide by YOTOV-LIMITED</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Python-testing-style-guide</h1>
+      <h2 class="project-tagline">A style guide for writing Python tests (and Django tests)</h2>
+      <a href="https://github.com/YOTOV-LIMITED/python-testing-style-guide" class="btn">View on GitHub</a>
+      <a href="https://github.com/YOTOV-LIMITED/python-testing-style-guide/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/YOTOV-LIMITED/python-testing-style-guide/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="python-testing-style-guide" class="anchor" href="#python-testing-style-guide" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>python-testing-style-guide</h1>
+
+<p>This document is a draft style guide for writing Python tests (and Django tests). It is meant to be
+expanded and refined over time.</p>
+
+<p>Many of the recommendations stand in stark contrast to conventions for good code. This is
+deliberate: tests are not regular code and have a much different set of risks
+and rewards. </p>
+
+<p>If you're curious <em>why</em> a particular practice is recommended, get
+someone to defend or explain it (there's a chance it's wrong and needs to be
+updated). That said, a lot of these recommendations come from specific mistakes
+and scars earned over many years of work, so don't be surprised if they're
+passionately defended.</p>
+
+<h1>
+<a id="prerequisites" class="anchor" href="#prerequisites" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prerequisites</h1>
+
+<h2>
+<a id="pep8-first" class="anchor" href="#pep8-first" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>PEP8 first</h2>
+
+<p>Start with <a href="http://www.python.org/dev/peps/pep-0008/">PEP8</a> and strive to understand why it makes
+the recommendations it does. We like nearly all of it except for the Maximum Line Length recommendation. </p>
+
+<h2>
+<a id="lint-in-your-editor" class="anchor" href="#lint-in-your-editor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lint in your editor</h2>
+
+<p>Configure the Python linting plugin for your editor and use it every time without exception.</p>
+
+<h2>
+<a id="prefer-imperfect-tests-to-no-tests" class="anchor" href="#prefer-imperfect-tests-to-no-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prefer imperfect tests to no tests</h2>
+
+<p>Tests should (almost) always accompany code we write professionally. We're
+fortunate to work in an environment where testing is actively encouraged, so
+don't waste that priveledge. We get away with all sorts of other efficiencies
+and laziness because of our sincere dedication to pragmatic and practical
+testing.</p>
+
+<h1>
+<a id="the-practice-of-testing" class="anchor" href="#the-practice-of-testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The practice of testing</h1>
+
+<h2>
+<a id="tox" class="anchor" href="#tox" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tox</h2>
+
+<p>Every package should have setup instructions for a developer in the <code>README</code>
+and should be testable using <code>tox</code> after setup. Use 100% test success to
+confirm your setup is complete.</p>
+
+<h2>
+<a id="master-should-be-100" class="anchor" href="#master-should-be-100" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Master should be 100%</h2>
+
+<p>Strive to never push a failing test to master. If you want to push failing tests to another branch, that's fine (in fact often encouraged).</p>
+
+<h2>
+<a id="run-tests-often" class="anchor" href="#run-tests-often" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Run tests often</h2>
+
+<p>We run our tests continuously with Jenkins (every morning and after every commit), but you still
+need to run them locally before pushing code.</p>
+
+<h2>
+<a id="use-tdd-if-it-makes-sense" class="anchor" href="#use-tdd-if-it-makes-sense" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use TDD if it makes sense</h2>
+
+<p>Some people do TDD often, sometimes, or rarely. Figure out when it's an
+effective habit for you.</p>
+
+<h2>
+<a id="pay-attention-to-coverage" class="anchor" href="#pay-attention-to-coverage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Pay attention to coverage</h2>
+
+<h2>
+<a id="remember-the-qa-team" class="anchor" href="#remember-the-qa-team" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Remember the QA team</h2>
+
+<p>We are fortunate in that we have a smart and effective QA team. Some functionality simply cannot be
+effectively tested, which can feel frustrating to a developer. Before spending too much time on a
+set of tests of limited benefit, consider whether the issue should be </p>
+
+<h2>
+<a id="delete-dead-or-misleading-tests-aggressively" class="anchor" href="#delete-dead-or-misleading-tests-aggressively" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Delete dead or misleading tests aggressively</h2>
+
+<p>Do not be shy about removing tests as soon as they start to become false or unhelpful.</p>
+
+<h2>
+<a id="focus-on-tests-during-code-reviews" class="anchor" href="#focus-on-tests-during-code-reviews" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Focus on tests during code reviews</h2>
+
+<h2>
+<a id="reproduce-before-testing" class="anchor" href="#reproduce-before-testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reproduce before testing</h2>
+
+<p>For regressions, you should always make sure you can reproduce the issue in a
+browser as a typical user before writing a single line of code (test or
+otherwise). After you can reproduce it, try to get a failing test to reliably
+reproduce it (if possible). Only then is it a good time to start writing the
+fix.</p>
+
+<h2>
+<a id="always-click-the-thing" class="anchor" href="#always-click-the-thing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Always "Click the thing"</h2>
+
+<p>No developer should ever rely on tests alone. Before resolving an issue, make
+sure you have walked through it at least once in a browser as a typical user.</p>
+
+<h2>
+<a id="write-regression-tests-whenever-possible" class="anchor" href="#write-regression-tests-whenever-possible" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Write regression tests whenever possible</h2>
+
+<h2>
+<a id="fail-tests-first" class="anchor" href="#fail-tests-first" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Fail tests first</h2>
+
+<p>How do you know if it is actually testing anything if the <code>assert</code> never failed?</p>
+
+<h2>
+<a id="write-descriptive-failure-messages" class="anchor" href="#write-descriptive-failure-messages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Write descriptive failure messages</h2>
+
+<p>When tests fail they should tell you exactly why.</p>
+
+<p>Yes:</p>
+
+<pre><code>response = self.client.post('/api/v1/data/', data=SAMPLE)
+assert response.status_code == status.HTTP_201_CREATED, "expected HTTP_201, got HTTP_{} data: {}".format(response.status_code, response.data)
+</code></pre>
+
+<p>This results in a message which explains exactly what was expected and why the test failed:</p>
+
+<pre><code>&gt;           assert response.status_code == status.HTTP_201_CREATED, "expected HTTP_201, got HTTP_{} data: {}".format(response.status_code, response.data)
+E           AssertionError: expected HTTP_201, got HTTP_400 data: {'name': [u'This field is required.']}
+E           assert 400 == 201
+E            +  where 400 = &lt;rest_framework.response.Response object at 0x1070bbb10&gt;.status_code
+E            +  and   201 = status.HTTP_201_CREATED
+</code></pre>
+
+<p>No:</p>
+
+<pre><code>response = self.client.post('/api/v1/data/', data=SAMPLE)
+assert response.status_code == status.HTTP_201_CREATED
+</code></pre>
+
+<p>This results in a message which isn't very helpful in diagnosing the test failure:</p>
+
+<pre><code>&gt;           assert response.status_code == status.HTTP_201_CREATED
+E           AssertionError: assert 201 == 400
+E            +  where 400 = &lt;rest_framework.response.Response object at 0x1070bbb10&gt;.status_code
+E            +  and   201 = status.HTTP_201_CREATED
+</code></pre>
+
+<h2>
+<a id="prefer-fewer-asserts-per-test" class="anchor" href="#prefer-fewer-asserts-per-test" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prefer fewer asserts per test</h2>
+
+<p>Read through the "One Assert per Test" section of  Robert Martin's <a href="https://www.safaribooksonline.com/library/view/clean-code/9780136083238/ch09.html#ch09lev1sec4"><em>Clean Code</em></a>. In fact, read the entire chapter <g-emoji alias="wink" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f609.png">😉</g-emoji></p>
+
+<h1>
+<a id="structure" class="anchor" href="#structure" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Structure</h1>
+
+<h2>
+<a id="prefer-small-tests" class="anchor" href="#prefer-small-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prefer small tests</h2>
+
+<h2>
+<a id="separate-tests-into-different-files" class="anchor" href="#separate-tests-into-different-files" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Separate tests into different files</h2>
+
+<p>Tests are generally structured to mirror the file layout of the modules they
+are testing. It is OK to group tests for small modules or to separate targeted
+tests for a single module across many files.</p>
+
+<h2>
+<a id="follow-import-conventions" class="anchor" href="#follow-import-conventions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Follow import conventions</h2>
+
+<p>Imports should be grouped in the following order (extends PEP8 rules):</p>
+
+<ol>
+<li>Python standard library imports</li>
+<li>Public library imports</li>
+<li>Django imports</li>
+<li>Testing library imports</li>
+<li>Internal libary imports</li>
+<li>Local application imports</li>
+</ol>
+
+<p>Each import line must be in alphabetical order inside its group.</p>
+
+<pre><code>import datetime
+import inspect
+import logging
+import uuid
+import os
+
+
+from lxml import etree
+from lxml.html import document_fromstring, html5parser
+
+
+from django.contrib.auth import get_user_model
+from django.core.urlresolvers import reverse
+from django.test import TestCase
+from django.test.client import Client
+from django.views.defaults import server_error
+
+
+import mock
+
+from nose import SkipTest
+from nose.tools import assert_equals, assert_in
+
+
+import nest.models 
+
+from nest.tests.test_helper import create_document
+
+
+from entice.models import UserSubject
+from heron.decorators import anyone_allowed
+from heron.models import Trial
+from heron.urls import urlpatterns
+from tools.urls import traverse_urls
+</code></pre>
+
+<h1>
+<a id="write-to-be-read" class="anchor" href="#write-to-be-read" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Write to be read</h1>
+
+<p>Our tests are often the first thing other developers read to try to understand
+our code. They'll also often be the first thing we read when something is on
+fire and we need to fix a bug. Strive for readability in tests.</p>
+
+<h2>
+<a id="always-write-a-docstring" class="anchor" href="#always-write-a-docstring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Always write a docstring</h2>
+
+<p>Every single test should have a human-readable docstring. The docstring should
+follow the pattern of the rest of the module.</p>
+
+<p>See the PEP guidelines for more info on <a href="https://www.python.org/dev/peps/pep-0257/">docstring conventions</a>.</p>
+
+<h2>
+<a id="use-should-in-every-docstring" class="anchor" href="#use-should-in-every-docstring" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use "should" in every docstring</h2>
+
+<p>Tests are often best when they focus on what behavior "should" happen in terms
+of important actors in the system. A good mental trick to keep tests in this
+style is to use "should" in every docstring. </p>
+
+<p>In addition, try to use a known actor or object as the subject of the docstring.</p>
+
+<p>Keep the number of words before should (or "should not") to a minimum to improve clarity.</p>
+
+<pre><code>    '''The Manage Users page should show a button to revoke access to the site for each User'''
+
+    '''The Manage Users page should show Users with obscured emails if they are associated with a demo Account'''
+
+    '''A Tutorial should be able to exist in multiple Groups'''
+
+    '''A European User should not be required to enter a state or province'''
+</code></pre>
+
+<h2>
+<a id="prefer-descriptive-variables" class="anchor" href="#prefer-descriptive-variables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prefer descriptive variables</h2>
+
+<p>A reader may have no idea what is happening inside your test. Help them by binding to descriptive variables.</p>
+
+<p>Yes:</p>
+
+<pre><code>reset_url = reverse('django.contrib.auth.views.password_reset_confirm', kwargs={'uidb36': self.user.id, 'token': token})
+absolute_reset_url = "http://{}.{}{}'.format(self.account.subdomain, settings.BASE_SITE, reset_url)
+expected = "Set your personal password: {}".format(absolute_reset_url)
+self.assertOutboxContainsBody(expected)
+</code></pre>
+
+<p>No:</p>
+
+<pre><code>self.assertOutboxContainsBody(
+    'Set your personal password: http://{subdomain}.{base_site}{url}'.format(
+        subdomain=self.account.subdomain, base_site=settings.BASE_SITE,
+        url=reverse('django.contrib.auth.views.password_reset_confirm',
+                    kwargs={'uidb36': self.user.id, 'token': expected})))
+</code></pre>
+
+<h1>
+<a id="expectations" class="anchor" href="#expectations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Expectations</h1>
+
+<h2>
+<a id="always-bind-an-expected-value" class="anchor" href="#always-bind-an-expected-value" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Always bind an <code>expected</code> value</h2>
+
+<p>We always bind an <code>expected</code> value because then the reader has no doubt of what
+is happening inside our asserts. Conventions like this allow us to focus on
+what's <em>different</em> about the code instead of being distracted by eccentricities
+of each implementation.</p>
+
+<p>Yes:</p>
+
+<pre><code>expected = [12, 19]
+self.assertEquals(expected, results)
+</code></pre>
+
+<p>No:</p>
+
+<pre><code>self.assertEquals(40, num_lessons)
+</code></pre>
+
+<h2>
+<a id="assert-the-expected-value-then-the-returned-value" class="anchor" href="#assert-the-expected-value-then-the-returned-value" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Assert the <code>expected</code> value then the returned value</h2>
+
+<p>Yes:</p>
+
+<pre><code>self.assertEquals(expected, topic_toc_links)
+
+self.assertEquals(expected, output)
+</code></pre>
+
+<p>No:</p>
+
+<pre><code>self.assertEquals(results, expected)
+</code></pre>
+
+<h2>
+<a id="prefer-explicit-expected-values" class="anchor" href="#prefer-explicit-expected-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prefer explicit expected values</h2>
+
+<p>Unlike regular code, tests are often stronger when they have explicit <code>expected</code> values despite the
+cost. This can improve readability ("What does this JSON response actually look like in practice?")
+and ensure that tests don't accidentally test nothing.</p>
+
+<p>Yes:</p>
+
+<pre><code>expected = ["2001-09-01",
+            "2002-12-30",
+            "2003-08-20",
+            "2003-08-29",
+            ]
+self.assertEquals(expected, dates)
+</code></pre>
+
+<p>No:</p>
+
+<pre><code>expected = [lesson.started for lesson in self.lessons] # Oops, self.lessons was empty and I just tested nothing
+self.assertEquals(expected, dates)
+</code></pre>
+
+<h1>
+<a id="things-that-people-will-yell-about" class="anchor" href="#things-that-people-will-yell-about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Things that people will yell about</h1>
+
+<h2>
+<a id="never-print" class="anchor" href="#never-print" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Never <code>print</code>
+</h2>
+
+<p>Use <code>logging</code> instead of <code>print</code> in your code.
+Learn how to make the logger work for you rather than against you.
+This should appear in every one of your files:</p>
+
+<pre><code>import logging
+
+log = logging.getLogger(__name__)
+</code></pre>
+
+<h1>
+<a id="unusual-testing-conventions" class="anchor" href="#unusual-testing-conventions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Unusual testing conventions</h1>
+
+<h2>
+<a id="repeat-yourself" class="anchor" href="#repeat-yourself" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Repeat yourself</h2>
+
+<h1>
+<a id="django" class="anchor" href="#django" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Django</h1>
+
+<h2>
+<a id="avoid-fixtures" class="anchor" href="#avoid-fixtures" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Avoid fixtures</h2>
+
+<h2>
+<a id="use-css-selectors" class="anchor" href="#use-css-selectors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use CSS selectors</h2>
+
+<p>More people can read and write CSS selectors than XPath or alternatives.</p>
+
+<h2>
+<a id="prefer-extremely-targeted-functional-tests" class="anchor" href="#prefer-extremely-targeted-functional-tests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prefer extremely targeted functional tests</h2>
+
+<h2>
+<a id="use-t--css-classes" class="anchor" href="#use-t--css-classes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use <code>t-</code> CSS classes</h2>
+
+<p>Every single test that relies on specific HTML markup <em>must</em> use/add a CSS class starting with <code>t-</code> to the required HTML elements.</p>
+
+<p>This declarative style allows the HTML and CSS to be refactored without impacting tests (even extremely specific ones).</p>
+
+<pre><code>num_revoke_buttons = len(nodes.cssselect(".t-user-table .t-revoke"))
+</code></pre>
+
+<h2>
+<a id="consider-templatetags" class="anchor" href="#consider-templatetags" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Consider templatetags</h2>
+
+<p>Templatetags are often much easier to test (especially in isolation) than the equivalent functional
+test.</p>
+
+<h1>
+<a id="testing-tools-and-techniques" class="anchor" href="#testing-tools-and-techniques" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Testing tools and techniques</h1>
+
+<h2>
+<a id="use-mocks-with-care" class="anchor" href="#use-mocks-with-care" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Use mocks with care</h2>
+
+<h2>
+<a id="enjoy-assertraises" class="anchor" href="#enjoy-assertraises" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enjoy assertRaises</h2>
+
+<h1>
+<a id="how-to-avoid-traps" class="anchor" href="#how-to-avoid-traps" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to avoid traps</h1>
+
+<h2>
+<a id="really-think-about-boundary-values" class="anchor" href="#really-think-about-boundary-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Really think about boundary values</h2>
+
+<h2>
+<a id="test-the-obvious-positive-and-negative-cases-separately" class="anchor" href="#test-the-obvious-positive-and-negative-cases-separately" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Test the obvious positive and negative cases separately</h2>
+
+<h2>
+<a id="introduce-some-randomness" class="anchor" href="#introduce-some-randomness" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduce some randomness</h2>
+
+<p>We introduce randomness to our tests to make sure we're handling a range of inputs sanely.</p>
+
+<p>The two most common patterns for introducing randomness are using <code>uuid.uuid4()</code> for string values
+and <code>random.randint()</code>.</p>
+
+<pre><code>self.epub = nest.models.EpubArchive.objects.create(identifier=str(uuid.uuid4()))
+
+bit = self.epub.htmlfile_set.create(filename="first.html", virtual_pages=random.randint(1, 100))
+
+how_many = random.randint(10, 100)
+for i in range(how_many):
+    ...
+</code></pre>
+
+<p>Warning: Randomness means that some test failures will become hard to reproduce. This is usually an
+acceptable cost.</p>
+
+<h2>
+<a id="introduce-some-unicode" class="anchor" href="#introduce-some-unicode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduce some Unicode</h2>
+
+<p>When setting up expected values or string inputs, try to remember to include strange Unicode
+characters.</p>
+
+<pre><code>expected = [u"R", 
+            u"å", 
+            u"n",
+            u"d", 
+            u"☃", 
+            u"ɯ"]
+</code></pre>
+
+<h1>
+<a id="resources" class="anchor" href="#resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resources</h1>
+
+<ul>
+<li>General, but excellent guidance on writing unit tests (language agnostic): <a href="https://www.safaribooksonline.com/library/view/clean-code/9780136083238/ch09.html">Ch. 9 "Unit Tests" from <em>Clean Code</em></a>
+</li>
+<li>A gentle introduction to the <em>feel</em> of testing (Django focus): <a href="http://www.safariflow.com/library/view/Test-Driven+Web+Development+with+Python/9781449365141/">Test-Driven Web Development with Python</a>
+</li>
+<li>The classic description of TDD (Java examples, oh well): <a href="http://www.safariflow.com/library/view/Test+Driven+Development%3A+By+Example/0321146530/">Test Driven Development: By Example</a>
+</li>
+<li>Another classic focused on explaining how testing works in the real world (more Java examples, oh well): <a href="http://my.safaribooksonline.com/book/software-engineering-and-development/software-testing/0131016490">Test Driven Development: By Example</a>
+</li>
+<li>Recent take on testing lessons from a mature project: <a href="http://pyvideo.org/video/2333/testing-django-projects-at-scale">Testing Django Projects at Scale</a>, a PyCon CA 2013 video </li>
+<li>Thoughts on mocking versus faking: <a href="http://nedbatchelder.com/blog/201206/tldw_stop_mocking_start_testing.html">Stop mocking, start testing</a>, a writeup with links to a PyCon 2012 video</li>
+<li>A presentation to convince you to start testing: <a href="http://nedbatchelder.com/text/st.html#1">Getting Started Testing your Python</a>
+</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/YOTOV-LIMITED/python-testing-style-guide">Python-testing-style-guide</a> is maintained by <a href="https://github.com/YOTOV-LIMITED">YOTOV-LIMITED</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
